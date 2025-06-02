@@ -17,7 +17,6 @@ okno_gry = pygame.image.load('skorki/zamek2.jpg')
 clock = pygame.time.Clock()
 FPS = 60
 
-
 # === Tworzenie obiektów ===
 gracz = Gracz(100, 300, 'skorki/1.bmp')
 wrog = Wrog(1000, 300, 'skorki/w.png')
@@ -25,8 +24,8 @@ wrog = Wrog(1000, 300, 'skorki/w.png')
 # === Flagi gry ===
 gra = True
 wstep_aktywny = True
+game_over = False
 
-# === Pętla gry ===
 while gra:
     clock.tick(FPS)
 
@@ -35,13 +34,13 @@ while gra:
             gra = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_DOWN:
-                gracz.ruchY += 1.5
+                gracz.ruchY += 2
             if event.key == pygame.K_UP:
-                gracz.ruchY -= 1.5
+                gracz.ruchY -= 2
             if event.key == pygame.K_RIGHT:
-                gracz.ruchX += 1.5
+                gracz.ruchX += 2
             if event.key == pygame.K_LEFT:
-                gracz.ruchX -= 1.5
+                gracz.ruchX -= 2
 
     klawisze = pygame.key.get_pressed()
 
@@ -49,10 +48,19 @@ while gra:
         okno.blit(wstep, (0, 0))
         if klawisze[pygame.K_SPACE]:
             wstep_aktywny = False
+    elif game_over:
+        okno.fill((0, 0, 0))
+        font = pygame.font.SysFont(None, 80)
+        tekst = font.render("Przegrałeś!", True, (255, 0, 0))
+        okno.blit(tekst, (450, 350))
     else:
         okno.blit(okno_gry, (0, 0))
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
         wrog.rysuj(okno)
+
+        # Kolizje
+        if gracz.get_rect().colliderect(wrog.get_rect()):
+            game_over = True  # lub np. gracz.hp -= 1
 
     pygame.display.update()

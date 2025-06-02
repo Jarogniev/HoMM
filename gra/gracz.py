@@ -1,5 +1,7 @@
 # cały gracz
 import pygame
+
+
 class Gracz:
     def __init__(self, x, y, obraz):
         self.x = x
@@ -8,6 +10,8 @@ class Gracz:
         self.ruchX = 0
         self.ruchY = 0
         self.predkosc = 1
+        self.szerokosc = self.obraz.get_width()
+        self.wysokosc = self.obraz.get_height()
 
     def rysuj(self, ekran):
         ekran.blit(self.obraz, (self.x, self.y))
@@ -25,7 +29,8 @@ class Gracz:
         self.x += self.ruchX
         self.y += self.ruchY
 
-        # Ograniczenia ekranu
         self.x = max(0, min(self.x, 1150))
         self.y = max(0, min(self.y, 760))
 
+    def get_rect(self):
+        return pygame.Rect(self.x, self.y, self.szerokosc, self.wysokosc)
