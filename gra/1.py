@@ -41,6 +41,8 @@ while gra:
                 gracz.ruchX += 2
             if event.key == pygame.K_LEFT:
                 gracz.ruchX -= 2
+            if event.key == pygame.K_m:
+                gracz.atakuj()
 
     klawisze = pygame.key.get_pressed()
 
@@ -54,6 +56,20 @@ while gra:
         tekst = font.render("Przegrałeś!", True, (255, 0, 0))
         okno.blit(tekst, (450, 350))
     else:
+        gracz.aktualizuj_atak()
+        gracz.sterowanie(klawisze)
+        gracz.rysuj(okno)
+        wrog.rysuj(okno)
+
+        # Sprawdzanie kolizji ciała gracza z wrogiem
+        if gracz.get_rect().colliderect(wrog.get_rect()):
+            game_over = True
+
+        # Sprawdzanie kolizji miecza z wrogiem
+        if gracz.atakuje and gracz.get_atak_rect().colliderect(wrog.get_rect()):
+            print("Wróg trafiony mieczem!")
+            wrog.x = -1000  # przesunięcie poza ekran
+
         okno.blit(okno_gry, (0, 0))
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)

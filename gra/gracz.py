@@ -1,4 +1,4 @@
-# cały gracz
+
 import pygame
 
 
@@ -12,9 +12,13 @@ class Gracz:
         self.predkosc = 1
         self.szerokosc = self.obraz.get_width()
         self.wysokosc = self.obraz.get_height()
+        self.atakuje = False
+        self.atak_timer = 0
 
     def rysuj(self, ekran):
         ekran.blit(self.obraz, (self.x, self.y))
+        if self.atakuje:
+            pygame.draw.rect(ekran, (255, 0, 0), self.get_atak_rect())
 
     def sterowanie(self, klawisze):
         if klawisze[pygame.K_a]:
@@ -34,3 +38,17 @@ class Gracz:
 
     def get_rect(self):
         return pygame.Rect(self.x, self.y, self.szerokosc, self.wysokosc)
+
+    def get_atak_rect(self):
+        # Atak mieczem na prawo od gracza
+        return pygame.Rect(self.x + self.szerokosc, self.y + 10, 20, self.wysokosc - 20)
+
+    def atakuj(self):
+        self.atakuje = True
+        self.atak_timer = 10  # licznik klatek, jak długo trwa animacja ataku
+
+    def aktualizuj_atak(self):
+        if self.atakuje:
+            self.atak_timer -= 1
+            if self.atak_timer <= 0:
+                self.atakuje = False
