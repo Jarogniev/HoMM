@@ -60,15 +60,18 @@ while gra:
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
         wrog.rysuj(okno)
-
-        # Sprawdzanie kolizji ciała gracza z wrogiem
-        if gracz.get_rect().colliderect(wrog.get_rect()):
+        if gracz.hp <= 0:
             game_over = True
 
+        # Sprawdzanie kolizji ciała gracza z wrogiem
+        if gracz.get_rect().colliderect(wrog.get_rect()) and wrog.hp > 0:
+            gracz.otrzymaj_obrazenia(1)
+            print("Gracz oberwał!")
+
         # Sprawdzanie kolizji miecza z wrogiem
-        if gracz.atakuje and gracz.get_atak_rect().colliderect(wrog.get_rect()):
+        if gracz.atakuje and gracz.get_atak_rect().colliderect(wrog.get_rect()) and wrog.hp > 0:
+            wrog.otrzymaj_obrazenia(1)
             print("Wróg trafiony mieczem!")
-            wrog.x = -1000  # przesunięcie poza ekran
 
         okno.blit(okno_gry, (0, 0))
         gracz.sterowanie(klawisze)
