@@ -10,7 +10,7 @@ class Gracz:
         self.ruchX = 0
         self.ruchY = 0
         self.predkosc = 1
-        self.hp = 3
+        self.hp = 4
         self.szerokosc = self.obraz.get_width()
         self.wysokosc = self.obraz.get_height()
         self.atakuje = False
@@ -62,4 +62,4 @@ class Gracz:
 
     def rysuj_hp(self, ekran):
         for i in range(self.hp):
-            pygame.draw.rect(ekran, (255, 0, 0), (self.x + i * 15, self.y - 10, 10, 5))
+            pygame.draw.rect(ekran, (0, 255, 0), (self.x + i * 15, self.y - 10, 10, 5))
