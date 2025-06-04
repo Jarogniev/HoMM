@@ -1,7 +1,18 @@
 import pygame
+import random
 
 from gra.gracz import Gracz
 from gra.wrog import Wrog
+
+
+
+def stworz_wrogow():
+    wrogowie = []
+    for _ in range(4):
+        x = 1150  # prawy skraj planszy
+        y = random.randint(50, 700)
+        wrogowie.append(Wrog(x, y, 'skorki/w.png'))
+    return wrogowie
 
 pygame.init()
 
@@ -19,7 +30,7 @@ FPS = 60
 
 # === Tworzenie obiektów ===
 gracz = Gracz(100, 300, 'skorki/1.bmp')
-wrog = Wrog(1000, 300, 'skorki/w.png')
+wrogowie = stworz_wrogow()
 
 # === Flagi gry ===
 gra = True
@@ -41,7 +52,7 @@ while gra:
                 gracz.ruchX += 2
             if event.key == pygame.K_LEFT:
                 gracz.ruchX -= 2
-            if event.key == pygame.K_m:
+            if event.key == pygame.K_SPACE:
                 gracz.atakuj()
 
     klawisze = pygame.key.get_pressed()
@@ -59,27 +70,32 @@ while gra:
         gracz.aktualizuj_atak()
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
-        wrog.rysuj(okno)
+        for wrog in wrogowie:
+            if wrog.hp > 0:
+                wrog.rysuj(okno)
         if gracz.hp <= 0:
             game_over = True
 
-        # Sprawdzanie kolizji ciała gracza z wrogiem
-        if gracz.get_rect().colliderect(wrog.get_rect()) and wrog.hp > 0:
-            gracz.otrzymaj_obrazenia(1)
-            print("Gracz oberwał!")
 
-        # Sprawdzanie kolizji miecza z wrogiem
-        if gracz.atakuje and gracz.get_atak_rect().colliderect(wrog.get_rect()) and wrog.hp > 0:
-            wrog.otrzymaj_obrazenia(1)
-            print("Wróg trafiony mieczem!")
+        for wr in wrogowie:
+            if wr.hp > 0 and gracz.get_rect().colliderect(wr.get_rect()):
+                gracz.otrzymaj_obrazenia(1)
+                print("Gracz oberwał od wroga!")
+                gracz.x -= 20
+
+        if gracz.atakuje:
+            atak_rect = gracz.get_atak_rect()
+            for wrog in wrogowie:
+                if wrog.hp > 0 and atak_rect.colliderect(wrog.get_rect()):
+                    wrog.otrzymaj_obrazenia(1)
+                    print("Jeb z dzidy laserowej!")
+
 
         okno.blit(okno_gry, (0, 0))
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
-        wrog.rysuj(okno)
+        for rys in wrogowie:
+            rys.rysuj(okno)
 
-        # Kolizje
-        if gracz.get_rect().colliderect(wrog.get_rect()):
-            game_over = True  # lub np. gracz.hp -= 1
 
     pygame.display.update()
