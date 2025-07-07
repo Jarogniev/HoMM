@@ -5,7 +5,6 @@ from gra.gracz import Gracz
 from gra.wrog import Wrog
 
 
-
 def stworz_wrogow():
     wrogowie = []
     for _ in range(4):
@@ -13,6 +12,7 @@ def stworz_wrogow():
         y = random.randint(50, 700)
         wrogowie.append(Wrog(x, y, 'skorki/w.png'))
     return wrogowie
+
 
 pygame.init()
 
@@ -76,7 +76,6 @@ while gra:
         if gracz.hp <= 0:
             game_over = True
 
-
         for wr in wrogowie:
             if wr.hp > 0 and gracz.get_rect().colliderect(wr.get_rect()):
                 gracz.otrzymaj_obrazenia(1)
@@ -90,12 +89,10 @@ while gra:
                     wrog.otrzymaj_obrazenia(1)
                     print("Jeb z dzidy laserowej!")
 
-
         okno.blit(okno_gry, (0, 0))
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
         for rys in wrogowie:
             rys.rysuj(okno)
-
 
     pygame.display.update()

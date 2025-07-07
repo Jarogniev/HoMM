@@ -26,3 +26,17 @@ class Wrog:
     def rysuj_hp(self, ekran):
         for i in range(self.hp):
             pygame.draw.rect(ekran, (255, 0, 0), (self.x + i * 15, self.y - 10, 10, 5))
+
+    def podazaj_za_graczem(self, gracz):
+        if self.hp <= 0:
+            return
+
+        if self.x > gracz.x:
+            self.x -= 1
+        elif self.x < gracz.x:
+            self.x += 1
+
+        if self.y > gracz.y:
+            self.y -= 1
+        elif self.y < gracz.y:
+            self.y += 1
