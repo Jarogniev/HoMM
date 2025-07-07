@@ -71,6 +71,7 @@ while gra:
         gracz.sterowanie(klawisze)
         gracz.rysuj(okno)
         for wrog in wrogowie:
+            wrog.podazaj_za_graczem(gracz)
             if wrog.hp > 0:
                 wrog.rysuj(okno)
         if gracz.hp <= 0:
