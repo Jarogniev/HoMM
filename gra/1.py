@@ -7,7 +7,7 @@ from gra.wrog import Wrog
 
 def stworz_wrogow():
     wrogowie = []
-    for _ in range(4):
+    for _ in range(1):
         x = 1150  # prawy skraj planszy
         y = random.randint(50, 700)
         wrogowie.append(Wrog(x, y, 'skorki/w.png'))
@@ -72,6 +72,7 @@ while gra:
         gracz.rysuj(okno)
         for wrog in wrogowie:
             wrog.podazaj_za_graczem(gracz)
+            wrog.atakuj_gracza(gracz)
             if wrog.hp > 0:
                 wrog.rysuj(okno)
         if gracz.hp <= 0:
