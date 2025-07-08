@@ -10,6 +10,8 @@ class Wrog:
         self.szerokosc = self.obraz.get_width()
         self.wysokosc = self.obraz.get_height()
         self.hp = 2
+        self.czas_ostatniego_ataku = 0  # w ms
+        self.odstep_ataku = 1000  # 1000 ms
 
     def rysuj(self, ekran):
         ekran.blit(self.obraz, (self.x, self.y))
@@ -40,3 +42,15 @@ class Wrog:
             self.y -= 1
         elif self.y < gracz.y:
             self.y += 1
+
+    def atakuj_gracza(self, gracz):
+        teraz = pygame.time.get_ticks()
+
+        if self.hp <= 0:
+            return
+
+        if self.get_rect().colliderect(gracz.get_rect()):
+            if teraz - self.czas_ostatniego_ataku >= self.odstep_ataku:
+                gracz.otrzymaj_obrazenia(1)
+                self.czas_ostatniego_ataku = teraz
+                print("Wróg dziduje!")
