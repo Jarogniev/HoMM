@@ -48,9 +48,8 @@ class Wrog:
 
         if self.hp <= 0:
             return
-
         if self.get_rect().colliderect(gracz.get_rect()):
             if teraz - self.czas_ostatniego_ataku >= self.odstep_ataku:
-                gracz.otrzymaj_obrazenia(1)
+                gracz.otrzymaj_obrazenia(1, id(self))
                 self.czas_ostatniego_ataku = teraz
                 print("Wróg dziduje!")
