@@ -69,7 +69,6 @@ while gra:
     else:
         gracz.aktualizuj_atak()
         gracz.sterowanie(klawisze)
-        # gracz.aktualizuj_niesmiertelnosc()
         gracz.rysuj(okno)
         for wrog in wrogowie:
             wrog.podazaj_za_graczem(gracz)
@@ -81,7 +80,7 @@ while gra:
 
         for wr in wrogowie:
             if wr.hp > 0 and gracz.get_rect().colliderect(wr.get_rect()):
-                gracz.otrzymaj_obrazenia(1)
+                gracz.otrzymaj_obrazenia(1, id(wrog))
                 print("Gracz oberwał od wroga!")
                 gracz.x -= 20
 

@@ -68,11 +68,6 @@ class Gracz:
         self.ostatnie_obrazenia_od[wrog_id] = teraz
         print(f"Gracz otrzymał obrażenia od wroga {wrog_id}! HP: {self.hp}")
 
-    # def aktualizuj_niesmiertelnosc(self):
-    #     teraz = pygame.time.get_ticks()
-    #     if self.niesmiertelny and (teraz - self.czas_ostatniego_obrazenia >= self.czas_niesmiertelnosci):
-    #         self.niesmiertelny = False
-
     def rysuj_hp(self, ekran):
         for i in range(self.hp):
             pygame.draw.rect(ekran, (0, 255, 0), (self.x + i * 15, self.y - 10, 10, 5))
