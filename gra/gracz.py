@@ -15,6 +15,9 @@ class Gracz:
         self.wysokosc = self.obraz.get_height()
         self.atakuje = False
         self.atak_timer = 0
+        self.niesmiertelny = False
+        self.czas_niesmiertelnosci = 1000  # ms
+        self.czas_ostatniego_obrazenia = 0
 
     def rysuj(self, ekran):
         ekran.blit(self.obraz, (self.x, self.y))
@@ -56,9 +59,19 @@ class Gracz:
                 self.atakuje = False
 
     def otrzymaj_obrazenia(self, ilosc):
+        teraz = pygame.time.get_ticks()
+        if self.niesmiertelny and (teraz - self.czas_ostatniego_obrazenia < self.czas_niesmiertelnosci):
+            return
+
         self.hp -= ilosc
-        if self.hp < 0:
-            self.hp = 0
+        self.czas_ostatniego_obrazenia = teraz
+        self.niesmiertelny = True
+        print(f"Gracz otrzymał obrażenia! HP: {self.hp}")
+
+    def aktualizuj_niesmiertelnosc(self):
+        teraz = pygame.time.get_ticks()
+        if self.niesmiertelny and (teraz - self.czas_ostatniego_obrazenia >= self.czas_niesmiertelnosci):
+            self.niesmiertelny = False
 
     def rysuj_hp(self, ekran):
         for i in range(self.hp):

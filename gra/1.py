@@ -69,6 +69,7 @@ while gra:
     else:
         gracz.aktualizuj_atak()
         gracz.sterowanie(klawisze)
+        gracz.aktualizuj_niesmiertelnosc()
         gracz.rysuj(okno)
         for wrog in wrogowie:
             wrog.podazaj_za_graczem(gracz)
