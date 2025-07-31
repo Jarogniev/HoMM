@@ -10,7 +10,7 @@ def stworz_wrogow():
     for _ in range(1):
         x = 1150  # prawy skraj planszy
         y = random.randint(50, 700)
-        wrogowie.append(Wrog(x, y, 'skorki/w.png'))
+        wrogowie.append(Wrog(x, y, 'skorki/gnoll.png'))
     return wrogowie
 
 
@@ -73,6 +73,7 @@ while gra:
         for wrog in wrogowie:
             wrog.podazaj_za_graczem(gracz)
             wrog.atakuj_gracza(gracz)
+            wrog.aktualizuj_stan()
             if wrog.hp > 0:
                 wrog.rysuj(okno)
         if gracz.hp <= 0:
